@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="HouseFair AI house floor plan">
+  <defs>
+    <linearGradient id="paper" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#fffdf6"/>
+      <stop offset="1" stop-color="#eef8f5"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#1aa293"/>
+      <stop offset=".58" stop-color="#efaa3d"/>
+      <stop offset="1" stop-color="#dd5872"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="72" fill="url(#paper)"/>
+  <rect x="70" y="72" width="1060" height="756" rx="48" fill="#ffffff" stroke="#d6dedb" stroke-width="5"/>
+  <path d="M122 440h956M612 124v654" stroke="#d6dedb" stroke-width="7" stroke-linecap="round"/>
+  <path d="M122 282h490M122 610h490M612 300h466M612 595h466" stroke="#e6edea" stroke-width="6" stroke-linecap="round"/>
+  <g font-family="Inter, Arial, sans-serif" font-weight="800" fill="#172a31">
+    <text x="142" y="134" font-size="33">Ground floor</text>
+    <text x="636" y="134" font-size="33">Top floor</text>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="27" font-weight="700" fill="#284148">
+    <text x="150" y="218">TV/main room</text>
+    <text x="150" y="366">Kitchen</text>
+    <text x="150" y="548">Ground bathroom</text>
+    <text x="150" y="710">Washing area + stairs</text>
+    <text x="642" y="226">Hallway</text>
+    <text x="642" y="382">Top bathroom</text>
+    <text x="642" y="540">Alex-Blair Room</text>
+    <text x="642" y="700">Trio Room + Finley Room</text>
+  </g>
+  <g fill="none" stroke="url(#accent)" stroke-linecap="round" stroke-width="16">
+    <path d="M430 210c52 42 78 94 78 156 0 91-72 156-162 156"/>
+    <path d="M852 384c-64 34-100 86-100 154 0 60 32 112 88 150"/>
+  </g>
+  <g fill="#1aa293">
+    <circle cx="482" cy="206" r="12"/>
+    <circle cx="348" cy="522" r="12"/>
+    <circle cx="852" cy="384" r="12"/>
+    <circle cx="840" cy="688" r="12"/>
+  </g>
+  <g font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">
+    <rect x="774" y="168" width="260" height="58" rx="29" fill="#19313a"/>
+    <text x="804" y="206">Fair shared zones</text>
+  </g>
+</svg>

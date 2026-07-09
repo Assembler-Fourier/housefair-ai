@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/scheduler/run",
+      "schedule": "0 19 * * *"
+    },
+    {
+      "path": "/api/scheduler/run",
+      "schedule": "0 8 * * *"
+    }
+  ]
+}

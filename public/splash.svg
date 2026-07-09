@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1800" role="img" aria-label="HouseFair AI splash screen">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#10242a"/>
+      <stop offset=".55" stop-color="#143b3b"/>
+      <stop offset="1" stop-color="#5a2638"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#1dd6c3"/>
+      <stop offset=".55" stop-color="#f3b545"/>
+      <stop offset="1" stop-color="#ef6a8a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1800" fill="url(#bg)"/>
+  <rect x="416" y="516" width="368" height="368" rx="84" fill="url(#mark)"/>
+  <path d="M492 678 600 584l108 94" fill="none" stroke="#fff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="768" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="118" font-weight="900" fill="#fff">HF</text>
+  <path d="M520 810h160" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity=".9"/>
+  <text x="600" y="1030" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="84" font-weight="900" fill="#fff">HouseFair AI</text>
+  <text x="600" y="1100" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="700" fill="#dcefeb">Fair house management, shared calmly.</text>
+</svg>
