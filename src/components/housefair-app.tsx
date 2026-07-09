@@ -800,12 +800,12 @@ const sessionStorageKey = "housefair:device-session";
 const queueStorageKey = "housefair:offline-actions";
 const identityEvent = "housefair-identity";
 const legacyPersonIds: Record<string, string> = {
-  "user-alex": "Alex",
-  "user-blair": "Blair",
-  "user-casey": "Casey",
-  "user-devin": "Devin",
-  "user-ellis": "Ellis",
-  "user-finley": "Finley",
+  "user-uzair": "Uzair",
+  "user-sheraz": "Sheraz",
+  "user-shahram": "Shahram",
+  "user-hammad": "Hammad",
+  "user-usama": "Usama",
+  "user-ali": "Ali",
 };
 
 function readJson<T>(value: string | null) {
@@ -2613,7 +2613,7 @@ function HouseScreen({
           <div className="rounded-2xl bg-background/65 p-3">
             <p className="font-black">Top floor bathroom</p>
             <p className="text-sm text-muted-foreground">
-              Alex, Casey, Devin, Ellis, and Finley only.
+              Uzair, Shahram, Hammad, Usama, and Ali only.
             </p>
           </div>
         </div>
@@ -3785,7 +3785,7 @@ function MoneyExpenseDialog({
           <Field label="Title">
             <Input
               name="title"
-              placeholder={expenseKind === "iou" ? "Finley borrowed cash" : "Milk and bread"}
+              placeholder={expenseKind === "iou" ? "Ali borrowed cash" : "Milk and bread"}
               defaultValue={editingExpense?.title ?? ""}
               required={expenseKind === "shared"}
             />

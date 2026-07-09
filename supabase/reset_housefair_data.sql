@@ -185,9 +185,9 @@ delete from public.guest_status;
 delete from public.tasks;
 
 insert into public.rooms (id, name, floor, capacity, privacy_level) values
-  ('00000000-0000-4000-8000-000000000201', 'Alex-Blair Room', 'top', 2, 'shared'),
-  ('00000000-0000-4000-8000-000000000202', 'Casey-Devin-Ellis Room', 'top', 3, 'shared'),
-  ('00000000-0000-4000-8000-000000000203', 'Finley Room', 'top', 1, 'single')
+  ('00000000-0000-4000-8000-000000000201', 'Uzair-Sheraz Room', 'top', 2, 'shared'),
+  ('00000000-0000-4000-8000-000000000202', 'Shahram-Hammad-Usama Room', 'top', 3, 'shared'),
+  ('00000000-0000-4000-8000-000000000203', 'Ali Room', 'top', 1, 'single')
 on conflict (id) do update set
   name = excluded.name,
   floor = excluded.floor,
@@ -195,12 +195,12 @@ on conflict (id) do update set
   privacy_level = excluded.privacy_level;
 
 insert into public.users (id, name, room_id, room_name, avatar_gradient, current_points, cleaning_streak) values
-  ('00000000-0000-4000-8000-000000000101', 'Alex', '00000000-0000-4000-8000-000000000201', 'Alex-Blair Room', 'from-emerald-400 via-teal-500 to-sky-500', 0, 0),
-  ('00000000-0000-4000-8000-000000000102', 'Blair', '00000000-0000-4000-8000-000000000201', 'Alex-Blair Room', 'from-amber-300 via-orange-500 to-rose-500', 0, 0),
-  ('00000000-0000-4000-8000-000000000103', 'Casey', '00000000-0000-4000-8000-000000000202', 'Casey-Devin-Ellis Room', 'from-cyan-400 via-blue-500 to-indigo-500', 0, 0),
-  ('00000000-0000-4000-8000-000000000104', 'Devin', '00000000-0000-4000-8000-000000000202', 'Casey-Devin-Ellis Room', 'from-lime-300 via-green-500 to-emerald-600', 0, 0),
-  ('00000000-0000-4000-8000-000000000105', 'Ellis', '00000000-0000-4000-8000-000000000202', 'Casey-Devin-Ellis Room', 'from-fuchsia-400 via-rose-500 to-red-500', 0, 0),
-  ('00000000-0000-4000-8000-000000000106', 'Finley', '00000000-0000-4000-8000-000000000203', 'Finley Room', 'from-stone-300 via-zinc-500 to-neutral-800', 0, 0)
+  ('00000000-0000-4000-8000-000000000101', 'Uzair', '00000000-0000-4000-8000-000000000201', 'Uzair-Sheraz Room', 'from-emerald-400 via-teal-500 to-sky-500', 0, 0),
+  ('00000000-0000-4000-8000-000000000102', 'Sheraz', '00000000-0000-4000-8000-000000000201', 'Uzair-Sheraz Room', 'from-amber-300 via-orange-500 to-rose-500', 0, 0),
+  ('00000000-0000-4000-8000-000000000103', 'Shahram', '00000000-0000-4000-8000-000000000202', 'Shahram-Hammad-Usama Room', 'from-cyan-400 via-blue-500 to-indigo-500', 0, 0),
+  ('00000000-0000-4000-8000-000000000104', 'Hammad', '00000000-0000-4000-8000-000000000202', 'Shahram-Hammad-Usama Room', 'from-lime-300 via-green-500 to-emerald-600', 0, 0),
+  ('00000000-0000-4000-8000-000000000105', 'Usama', '00000000-0000-4000-8000-000000000202', 'Shahram-Hammad-Usama Room', 'from-fuchsia-400 via-rose-500 to-red-500', 0, 0),
+  ('00000000-0000-4000-8000-000000000106', 'Ali', '00000000-0000-4000-8000-000000000203', 'Ali Room', 'from-stone-300 via-zinc-500 to-neutral-800', 0, 0)
 on conflict (name) do update set
   room_id = excluded.room_id,
   room_name = excluded.room_name,
@@ -215,10 +215,10 @@ insert into public.areas (id, name, floor, description, everyone_uses, excluded_
   ('00000000-0000-4000-8000-000000000304', 'Washing machine area', 'ground', 'Laundry and cleaning supply zone.', true, '{}'),
   ('00000000-0000-4000-8000-000000000305', 'Stairs', 'ground', 'Shared access between floors.', true, '{}'),
   ('00000000-0000-4000-8000-000000000306', 'Hallway', 'top', 'Top floor shared passage.', true, '{}'),
-  ('00000000-0000-4000-8000-000000000307', 'Top floor bathroom', 'top', 'Shared bathroom used by everyone except Blair.', false, array['Blair']),
-  ('00000000-0000-4000-8000-000000000308', 'Alex-Blair Room', 'top', 'Private room responsibility for Alex and Blair.', false, array['Casey', 'Devin', 'Ellis', 'Finley']),
-  ('00000000-0000-4000-8000-000000000309', 'Casey-Devin-Ellis Room', 'top', 'Private room responsibility for Casey, Devin, and Ellis.', false, array['Alex', 'Blair', 'Finley']),
-  ('00000000-0000-4000-8000-000000000310', 'Finley Room', 'top', 'Private room responsibility for Finley.', false, array['Alex', 'Blair', 'Casey', 'Devin', 'Ellis'])
+  ('00000000-0000-4000-8000-000000000307', 'Top floor bathroom', 'top', 'Shared bathroom used by everyone except Sheraz.', false, array['Sheraz']),
+  ('00000000-0000-4000-8000-000000000308', 'Uzair-Sheraz Room', 'top', 'Private room responsibility for Uzair and Sheraz.', false, array['Shahram', 'Hammad', 'Usama', 'Ali']),
+  ('00000000-0000-4000-8000-000000000309', 'Shahram-Hammad-Usama Room', 'top', 'Private room responsibility for Shahram, Hammad, and Usama.', false, array['Uzair', 'Sheraz', 'Ali']),
+  ('00000000-0000-4000-8000-000000000310', 'Ali Room', 'top', 'Private room responsibility for Ali.', false, array['Uzair', 'Sheraz', 'Shahram', 'Hammad', 'Usama'])
 on conflict (id) do update set
   name = excluded.name,
   floor = excluded.floor,
@@ -234,7 +234,7 @@ values
   ('00000000-0000-4000-8000-000000000403', 'Food waste bin', 'Empty and reset the small food waste bin when it is half full, wet, or smelly.', 'Kitchen', 'easy', 2, '00000000-0000-4000-8000-000000000105', current_date, 'daily', 'pending', false, null, null, null, null, 8, '["Empty food waste bag if half full or smelly", "Replace small white food waste bag", "Wipe lid and surrounding area"]'::jsonb),
   ('00000000-0000-4000-8000-000000000404', 'Trash checks', 'Check kitchen and bathroom bins before night and move full bags outside.', 'Kitchen', 'easy', 3, '00000000-0000-4000-8000-000000000106', current_date, 'daily', 'pending', false, null, null, null, null, 10, '["Check kitchen bin", "Check bathroom bins", "Replace liners where needed", "Move full bags outside"]'::jsonb),
   ('00000000-0000-4000-8000-000000000405', 'Clean ground floor bathroom', 'Clean the bathroom used by everyone and guests. Photo proof is required.', 'Ground floor bathroom', 'heavy', 7, '00000000-0000-4000-8000-000000000103', current_date + 2, 'weekly', 'pending', true, null, null, null, null, 35, '["Toilet cleaned", "Sink cleaned", "Mirror cleaned", "Floor cleaned", "Toilet paper checked"]'::jsonb),
-  ('00000000-0000-4000-8000-000000000406', 'Clean top floor bathroom', 'Clean the top floor bathroom. Blair is excluded from this task. Photo proof is required.', 'Top floor bathroom', 'heavy', 8, '00000000-0000-4000-8000-000000000106', current_date + 3, 'weekly', 'pending', true, null, null, null, null, 40, '["Toilet cleaned", "Sink cleaned", "Mirror cleaned", "Floor cleaned", "Toilet paper checked"]'::jsonb),
+  ('00000000-0000-4000-8000-000000000406', 'Clean top floor bathroom', 'Clean the top floor bathroom. Sheraz is excluded from this task. Photo proof is required.', 'Top floor bathroom', 'heavy', 8, '00000000-0000-4000-8000-000000000106', current_date + 3, 'weekly', 'pending', true, null, null, null, null, 40, '["Toilet cleaned", "Sink cleaned", "Mirror cleaned", "Floor cleaned", "Toilet paper checked"]'::jsonb),
   ('00000000-0000-4000-8000-000000000407', 'Vacuum and mop ground floor', 'Vacuum the TV/main room, kitchen edges, and mop shared ground floor.', 'Ground floor', 'heavy', 8, '00000000-0000-4000-8000-000000000104', current_date + 4, 'weekly', 'pending', true, null, null, null, null, 45, '["Vacuum TV/main room", "Vacuum kitchen edges", "Mop ground floor", "Move visible clutter before cleaning"]'::jsonb),
   ('00000000-0000-4000-8000-000000000408', 'Clean stairs', 'Vacuum stairs, wipe rail, and clear anything left on steps.', 'Stairs', 'medium', 4, '00000000-0000-4000-8000-000000000102', current_date + 2, 'weekly', 'pending', false, null, null, null, null, 18, '["Vacuum stairs", "Wipe rail", "Clear items left on steps"]'::jsonb),
   ('00000000-0000-4000-8000-000000000409', 'Clean hallway', 'Vacuum top hallway, clear shared clutter, and wipe visible marks.', 'Hallway', 'medium', 4, '00000000-0000-4000-8000-000000000101', current_date + 3, 'weekly', 'pending', false, null, null, null, null, 20, '["Vacuum hallway", "Clear shared clutter", "Wipe visible marks"]'::jsonb),

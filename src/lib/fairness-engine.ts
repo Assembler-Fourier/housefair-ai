@@ -202,7 +202,7 @@ function houseModePenalty(state: HouseState, task: (typeof weeklyTemplates)[numb
 
 function isEligible(user: HouseUser, location: string) {
   if (location === "Top floor bathroom") {
-    return user.name !== "Blair";
+    return user.name !== "Sheraz";
   }
 
   return true;
@@ -352,7 +352,7 @@ export function generateFairWeeklyPlan(state: HouseState): WeeklyPlan {
       assigned_to: choice.user.id,
       reason:
         template.location === "Top floor bathroom"
-          ? `${choice.user.name} is eligible, Blair is excluded, heavy-load score is ${choice.heavyLoad.toFixed(1)}, recent workload is ${Math.round(choice.recentWorkload)}, and this keeps bathroom rotation balanced.`
+          ? `${choice.user.name} is eligible, Sheraz is excluded, heavy-load score is ${choice.heavyLoad.toFixed(1)}, recent workload is ${Math.round(choice.recentWorkload)}, and this keeps bathroom rotation balanced.`
           : `${choice.user.name} has the lowest fair score after points (${choice.points}), heavy-load history (${choice.heavyLoad.toFixed(1)}), recent workload (${Math.round(choice.recentWorkload)}), complaints signal (${choice.complaints.toFixed(1)}), availability, preferences, and this month's money contribution (EUR ${choice.moneyPaid.toFixed(2)}).`,
       difficulty: template.difficulty,
       points: template.points,
@@ -383,7 +383,7 @@ export function generateFairWeeklyPlan(state: HouseState): WeeklyPlan {
     house_mode: state.house_mode,
     assignments,
     fairness_notes: [
-      "Blair is excluded from top floor bathroom rotation.",
+      "Sheraz is excluded from top floor bathroom rotation.",
       `${heavyAssignments.length} heavy tasks are spread across eligible housemates.`,
       hasHistory
         ? "Recent heavy tasks count more than older history so nobody gets stuck with the same hard work."

@@ -42,7 +42,7 @@ The migration creates:
 - private `proof-images` Supabase Storage bucket
 - deny-by-default Row Level Security policies for direct client access
 
-It also enforces the top floor bathroom rule so Blair cannot be assigned that task.
+It also enforces the top floor bathroom rule so Sheraz cannot be assigned that task.
 
 ## Environment
 

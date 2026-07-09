@@ -9,7 +9,7 @@ Scope: Personal six-roommate household only
 
 ## Executive Summary
 
-HouseFair AI is ready for real household use as a mobile-first PWA for Alex, Blair, Casey, Devin, Ellis, and Finley. It now opens on a House Command Center and covers routines, carry-over pending tasks, reminders, WhatsApp nudges, proof, swaps, groceries, barcode scanning, house issues, announcements, guest tracking, personal profiles, levels, badge automation, Money/Splitwise-style expenses, AI recommendations, house modes, weekly AI reports, PIN-protected device identity, offline queueing, push infrastructure, audit logging, Supabase RLS, export/backup tools, and a clean production reset baseline.
+HouseFair AI is ready for real household use as a mobile-first PWA for Uzair, Sheraz, Shahram, Hammad, Usama, and Ali. It now opens on a House Command Center and covers routines, carry-over pending tasks, reminders, WhatsApp nudges, proof, swaps, groceries, barcode scanning, house issues, announcements, guest tracking, personal profiles, levels, badge automation, Money/Splitwise-style expenses, AI recommendations, house modes, weekly AI reports, PIN-protected device identity, offline queueing, push infrastructure, audit logging, Supabase RLS, export/backup tools, and a clean production reset baseline.
 
 Overall score: 97 / 100
 
@@ -92,7 +92,7 @@ The database should be reset after each smoke test so there is no fake ranking o
 | --- | --- | --- |
 | House Command Center | Done | Today's routines, house health, cleaning status, groceries, money balance, open issues, rules status, smart reminders, recent activity, and quick actions. |
 | Tasks | Done | Daily/weekly/monthly/quick tasks, checklists, time, difficulty, points, proof, swipe/complete, carry-over reminders. |
-| Bathroom rules | Done | Blair is excluded from top floor bathroom task logic. |
+| Bathroom rules | Done | Sheraz is excluded from top floor bathroom task logic. |
 | Task swaps | Done | Request, accept, cancel, audit log, notifications record. |
 | Proof system | Done | Heavy tasks require before and after live camera images. AI recommends only. |
 | AI Manager | Done | Weekly plan, chat questions, fairness notes, grocery predictions, cleanliness scores, house mode, weekly report, money-aware recommendations. |

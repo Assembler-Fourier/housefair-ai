@@ -178,9 +178,9 @@ export async function POST(request: Request) {
 
     if (input.action === "accept") {
       const personName = await getUserName(auth.session.personId);
-      if (swap.task_location === "Top floor bathroom" && personName === "Blair") {
+      if (swap.task_location === "Top floor bathroom" && personName === "Sheraz") {
         return NextResponse.json(
-          { error: "Blair is excluded from top floor bathroom cleaning." },
+          { error: "Sheraz is excluded from top floor bathroom cleaning." },
           { status: 400 },
         );
       }
@@ -235,9 +235,9 @@ export async function POST(request: Request) {
   if (input.action === "accept") {
     const personName = await getUserName(auth.session.personId);
     const task = swap.tasks as { location?: string } | null;
-    if (task?.location === "Top floor bathroom" && personName === "Blair") {
+    if (task?.location === "Top floor bathroom" && personName === "Sheraz") {
       return NextResponse.json(
-        { error: "Blair is excluded from top floor bathroom cleaning." },
+        { error: "Sheraz is excluded from top floor bathroom cleaning." },
         { status: 400 },
       );
     }

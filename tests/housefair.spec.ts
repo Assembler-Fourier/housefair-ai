@@ -1,10 +1,10 @@
 import { expect, test, type Page } from "playwright/test";
 
-const alexId = "00000000-0000-4000-8000-000000000101";
+const uzairId = "00000000-0000-4000-8000-000000000101";
 const testDeviceId = "playwright-device";
 const testSession = {
   deviceId: testDeviceId,
-  personId: alexId,
+  personId: uzairId,
   sessionToken: "playwright-session-token",
   verifiedAt: new Date().toISOString(),
 };
@@ -18,7 +18,7 @@ async function mockDeviceApis(page: Page) {
   });
 }
 
-async function openAsAlex(page: Page) {
+async function openAsUzair(page: Page) {
   await mockDeviceApis(page);
   await page.addInitScript((session) => {
     window.localStorage.setItem(
@@ -29,7 +29,7 @@ async function openAsAlex(page: Page) {
     window.sessionStorage.setItem("housefair:device-session", JSON.stringify(session));
   }, testSession);
   await page.goto("/");
-  await expect(page.getByText("Today, Alex")).toBeVisible();
+  await expect(page.getByText("Today, Uzair")).toBeVisible();
 }
 
 async function openFirstLaunch(page: Page) {
@@ -84,7 +84,7 @@ test("identity setup, PIN confirmation, and command center are mobile safe", asy
 });
 
 test("tasks, proof dialog, groceries, money, issues, and AI panels render on mobile", async ({ page }) => {
-  await openAsAlex(page);
+  await openAsUzair(page);
 
   await page.getByRole("button", { name: "Tasks" }).click();
   await expect(page.getByText("Fair work, visible credit")).toBeVisible();
@@ -114,7 +114,7 @@ test("tasks, proof dialog, groceries, money, issues, and AI panels render on mob
 });
 
 test("first-week setup and maintenance controls are reachable without layout overflow", async ({ page }) => {
-  await openAsAlex(page);
+  await openAsUzair(page);
   await page.getByRole("button", { name: "More" }).click();
   await page.getByRole("tab", { name: "Settings" }).click();
   await expect(page.getByText("Maintenance settings")).toBeVisible();

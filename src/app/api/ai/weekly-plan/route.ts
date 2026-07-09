@@ -49,7 +49,7 @@ async function refineWithModel(seed: WeeklyPlan, state: HouseState) {
         {
           role: "system",
           content:
-            "You are HouseFair AI Manager. Produce fair roommate cleaning plans. Never make permanent assignments. Respect that Blair must not clean the top floor bathroom. Return compact JSON only.",
+            "You are HouseFair AI Manager. Produce fair roommate cleaning plans. Never make permanent assignments. Respect that Sheraz must not clean the top floor bathroom. Return compact JSON only.",
         },
         {
           role: "user",

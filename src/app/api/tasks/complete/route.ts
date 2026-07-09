@@ -188,9 +188,9 @@ export async function POST(request: Request) {
   }
 
   const userDisplayName = await getUserName(auth.session.personId);
-  if (task.location === "Top floor bathroom" && userDisplayName === "Blair") {
+  if (task.location === "Top floor bathroom" && userDisplayName === "Sheraz") {
     return NextResponse.json(
-      { error: "Blair is excluded from top floor bathroom cleaning." },
+      { error: "Sheraz is excluded from top floor bathroom cleaning." },
       { status: 400 },
     );
   }

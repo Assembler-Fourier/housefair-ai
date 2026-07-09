@@ -1,8 +1,8 @@
 update public.rooms
 set name = case id
-  when '00000000-0000-4000-8000-000000000201' then 'Alex-Blair Room'
-  when '00000000-0000-4000-8000-000000000202' then 'Casey-Devin-Ellis Room'
-  when '00000000-0000-4000-8000-000000000203' then 'Finley Room'
+  when '00000000-0000-4000-8000-000000000201' then 'Uzair-Sheraz Room'
+  when '00000000-0000-4000-8000-000000000202' then 'Shahram-Hammad-Usama Room'
+  when '00000000-0000-4000-8000-000000000203' then 'Ali Room'
   else name
 end
 where id in (
@@ -13,9 +13,9 @@ where id in (
 
 update public.users
 set room_name = case room_id
-  when '00000000-0000-4000-8000-000000000201' then 'Alex-Blair Room'
-  when '00000000-0000-4000-8000-000000000202' then 'Casey-Devin-Ellis Room'
-  when '00000000-0000-4000-8000-000000000203' then 'Finley Room'
+  when '00000000-0000-4000-8000-000000000201' then 'Uzair-Sheraz Room'
+  when '00000000-0000-4000-8000-000000000202' then 'Shahram-Hammad-Usama Room'
+  when '00000000-0000-4000-8000-000000000203' then 'Ali Room'
   else room_name
 end
 where room_id in (
@@ -26,9 +26,9 @@ where room_id in (
 
 update public.areas
 set name = case id
-  when '00000000-0000-4000-8000-000000000308' then 'Alex-Blair Room'
-  when '00000000-0000-4000-8000-000000000309' then 'Casey-Devin-Ellis Room'
-  when '00000000-0000-4000-8000-000000000310' then 'Finley Room'
+  when '00000000-0000-4000-8000-000000000308' then 'Uzair-Sheraz Room'
+  when '00000000-0000-4000-8000-000000000309' then 'Shahram-Hammad-Usama Room'
+  when '00000000-0000-4000-8000-000000000310' then 'Ali Room'
   else name
 end
 where id in (

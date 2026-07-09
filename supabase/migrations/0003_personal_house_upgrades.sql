@@ -117,7 +117,7 @@ where id = '00000000-0000-4000-8000-000000000408';
 
 update public.tasks set
   title = 'Clean top floor bathroom',
-  description = 'Clean the top floor bathroom. Blair is excluded from this task. Photo proof is required.',
+  description = 'Clean the top floor bathroom. Sheraz is excluded from this task. Photo proof is required.',
   location = 'Top floor bathroom',
   difficulty = 'heavy',
   points = 8,

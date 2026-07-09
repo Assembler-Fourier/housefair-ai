@@ -30,12 +30,12 @@ type DeviceRecord = {
 const fallbackDevices = new Map<string, DeviceRecord>();
 const rateBuckets = new Map<string, { count: number; resetAt: number }>();
 const legacyPersonNameById: Record<string, string> = {
-  "user-alex": "Alex",
-  "user-blair": "Blair",
-  "user-casey": "Casey",
-  "user-devin": "Devin",
-  "user-ellis": "Ellis",
-  "user-finley": "Finley",
+  "user-uzair": "Uzair",
+  "user-sheraz": "Sheraz",
+  "user-shahram": "Shahram",
+  "user-hammad": "Hammad",
+  "user-usama": "Usama",
+  "user-ali": "Ali",
 };
 
 const deviceSessionSchema = z.object({

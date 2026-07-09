@@ -1,10 +1,10 @@
 export const memberNames = [
-  "Alex",
-  "Blair",
-  "Casey",
-  "Devin",
-  "Ellis",
-  "Finley",
+  "Uzair",
+  "Sheraz",
+  "Shahram",
+  "Hammad",
+  "Usama",
+  "Ali",
 ] as const;
 
 export type MemberName = (typeof memberNames)[number];
