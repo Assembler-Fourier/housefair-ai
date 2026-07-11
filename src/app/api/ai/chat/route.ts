@@ -44,12 +44,12 @@ export async function POST(request: Request) {
 
   if (includesAny(message, ["weekly plan", "generate plan", "plan week"])) {
     answer =
-      "Here is a draft weekly plan for review. It respects Sheraz being excluded from the top floor bathroom and considers points, heavy-task history, issues, availability, and guests.";
+      "Here is a draft weekly plan for review. It respects configured room and area eligibility rules and considers points, heavy-task history, issues, availability, and guests.";
     responsePlan = plan;
   } else if (includesAny(message, ["bathroom", "toilet", "sink", "mirror"])) {
     answer = bathroomPick
       ? `${state.users.find((user) => user.id === bathroomPick.assigned_to)?.name ?? "A housemate"} is the fairest bathroom recommendation right now for ${bathroomPick.location}. Reason: ${bathroomPick.reason}`
-      : "I recommend assigning bathrooms to the eligible person with the lightest recent heavy-task load. Sheraz must not be assigned the top floor bathroom.";
+      : "I recommend assigning bathrooms to the eligible person with the lightest recent heavy-task load, using the house's configured bathroom rules.";
   } else if (includesAny(message, ["grocer", "missing", "shopping", "buy"])) {
     answer = missingGroceries.length
       ? `Groceries needing attention: ${missingGroceries.slice(0, 8).map((item) => `${item.name} (${item.status.replace("_", " ")})`).join(", ")}.`

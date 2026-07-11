@@ -16,6 +16,7 @@ import {
   updateRows,
 } from "@/lib/server/db";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
+import { areaEligibilityForUser } from "@/lib/server/area-eligibility";
 import type { Task } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -47,29 +48,6 @@ async function getTask(taskId: string) {
 
   if (error) throw error;
   return data as Task;
-}
-
-async function getUserName(userId: string) {
-  const seedUser = createSeedHouseState().users.find((item) => item.id === userId);
-
-  if (isPostgresConfigured()) {
-    const data = await dbQueryOne<{ name: string }>(
-      "select name from public.users where id = $1 limit 1",
-      [userId],
-    );
-    return data?.name ?? "A housemate";
-  }
-
-  if (seedUser || !isSupabaseConfigured()) return seedUser?.name ?? "A housemate";
-
-  const supabase = getSupabaseAdmin();
-  const { data } = await supabase
-    .from("users")
-    .select("name")
-    .eq("id", userId)
-    .single();
-
-  return (data?.name as string | undefined) ?? "A housemate";
 }
 
 const rewardDefinitions = {
@@ -187,10 +165,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Task not found." }, { status: 404 });
   }
 
-  const userDisplayName = await getUserName(auth.session.personId);
-  if (task.location === "Top floor bathroom" && userDisplayName === "Sheraz") {
+  const eligibility = await areaEligibilityForUser(auth.session.personId, task.location);
+  const userDisplayName = eligibility.userName;
+  if (eligibility.isExcluded) {
     return NextResponse.json(
-      { error: "Sheraz is excluded from top floor bathroom cleaning." },
+      {
+        error: `${userDisplayName} is excluded from ${task.location}.`,
+        excluded_members: eligibility.excludedMembers,
+      },
       { status: 400 },
     );
   }

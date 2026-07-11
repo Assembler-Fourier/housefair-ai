@@ -81,8 +81,8 @@
   --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
 
 * {
@@ -111,10 +111,7 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   overscroll-behavior-x: none;
-  background:
-    radial-gradient(circle at 18% -10%, oklch(0.9 0.08 162 / 32%), transparent 36rem),
-    radial-gradient(circle at 88% 0%, oklch(0.92 0.12 78 / 26%), transparent 32rem),
-    linear-gradient(180deg, var(--background), oklch(0.96 0.018 250));
+  background: linear-gradient(180deg, var(--background), oklch(0.96 0.018 250));
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
 }
@@ -127,10 +124,7 @@ body {
 }
 
 .dark body {
-  background:
-    radial-gradient(circle at 12% -10%, oklch(0.35 0.09 174 / 28%), transparent 34rem),
-    radial-gradient(circle at 88% 0%, oklch(0.32 0.1 35 / 24%), transparent 30rem),
-    linear-gradient(180deg, var(--background), oklch(0.11 0.02 245));
+  background: linear-gradient(180deg, var(--background), oklch(0.11 0.02 245));
 }
 
 button,

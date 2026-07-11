@@ -3,11 +3,11 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "HouseFair AI",
+    name: "HouseFair",
     short_name: "HouseFair",
     description:
-      "Shared roommate management with fair tasks, groceries, complaints, points, and AI planning.",
-    start_url: "/",
+      "Fair chores, groceries, house issues, shared money, and AI planning for roommates.",
+    start_url: "/app/today",
     scope: "/",
     display: "standalone",
     display_override: ["standalone", "minimal-ui"],
@@ -55,17 +55,17 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       {
-        name: "Complete Task",
+        name: "Today",
         short_name: "Task",
-        description: "Open HouseFair tasks",
-        url: "/?view=tasks",
+        description: "Open the HouseFair command center",
+        url: "/app/today",
         icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }],
       },
       {
         name: "Add Grocery",
         short_name: "Grocery",
         description: "Open grocery manager",
-        url: "/?view=groceries",
+        url: "/app/groceries",
         icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml" }],
       },
     ],

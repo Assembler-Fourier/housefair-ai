@@ -1,86 +1,149 @@
-# HouseFair AI
+# HouseFair
 
-HouseFair AI is a mobile-first Progressive Web App for a six-person house. It manages shared cleaning tasks, points, complaints, groceries, proof images, fairness analytics, push notifications, and an AI assistant named **HouseFair AI Manager**.
+**A mobile-first command center for shared homes.**
+
+[Live app](https://housemates-sand.vercel.app) · [Launch audit](HOUSEFAIR_SAAS_CONVERSION_REPORT.md) · [Security model](SECURITY.md)
+
+![HouseFair mobile screens](docs/screenshots/contact-sheet.jpg)
+
+I built HouseFair after living in a six-person house and seeing the same problems repeat: chores were agreed in chat and forgotten, shared shopping was scattered across messages, and nobody had a clear picture of who had paid or done the difficult jobs recently.
+
+The first version solved that one house. The current product keeps the practical details that mattered there, but gives each household its own isolated workspace. It combines recurring cleaning routines, groceries, shared expenses, softer issue reporting, and explainable planning in one installable PWA.
+
+HouseFair is in free early access. No card is required.
+
+## The product
+
+### A useful home screen
+
+The Today view answers the questions people actually have when they open the app: what needs attention, what is overdue, what the house is running out of, and whether there is money to settle. Recent activity makes changes visible without turning the house into a competition.
+
+### Chores with enough detail to be fair
+
+- Daily, weekly, monthly, and quick routines
+- Checklists, estimated time, difficulty, points, and point explanations
+- Carry-over when somebody cannot complete a task that day
+- Swap requests and cancellation
+- Camera-only before/after proof for heavier cleaning
+- Recurring task creation after completion
+- Fairness suggestions based on workload, availability, history, and task difficulty
+
+The AI manager only proposes a plan. People review it before anything is assigned, and it never applies a punishment.
+
+### Groceries and shared money
+
+- Shared stock states and shopping mode
+- Restock predictions from purchase frequency
+- Grocery-to-expense handoff
+- Equal, exact, percentage, and shares-based splits
+- IOUs, simplified debts, settlements, receipts, budgets, and monthly summaries
+- Money stored in integer cents to avoid floating-point rounding errors
+
+### Less awkward house issues
+
+Instead of treating every problem as a complaint, HouseFair supports a reminder, a cleanup request, or a formal report. The workflow keeps voting and dispute handling for genuine conflicts, but the everyday path stays deliberately calm.
+
+## Screens
+
+| Today | Tasks | Proof |
+| --- | --- | --- |
+| ![Today command center](docs/screenshots/01-today-command-center.png) | ![Task routines](docs/screenshots/02-task-routines.png) | ![Task proof flow](docs/screenshots/03-complete-task-proof-dialog.png) |
+
+| Groceries | Money | AI manager |
+| --- | --- | --- |
+| ![Shared groceries](docs/screenshots/04-groceries-shopping.png) | ![Shared money dashboard](docs/screenshots/06-money-dashboard.png) | ![AI house manager](docs/screenshots/07-ai-manager-house-controls.png) |
+
+Screenshots use anonymized demo data.
+
+## Engineering decisions
+
+- **Server-owned household scope.** Every commercial API request resolves the authenticated user, active household, and membership before querying data.
+- **PostgreSQL as the source of truth.** Operational records are household-scoped and written in transactions through a server-only pooled connection.
+- **RLS as a second boundary.** Browser-readable Supabase tables and private Storage objects are protected by active membership policies.
+- **Validated mutations.** Zod schemas, route-level authorization, rate limits, and audit activity protect high-friction actions such as uploads, expenses, tasks, and issues.
+- **Private-page cache discipline.** The service worker provides an installable offline shell without caching authenticated household HTML.
+- **Recommendation-only AI.** Planning remains explainable and reversible. Rules still work when no external model is configured.
+- **Legacy containment.** The original single-house demo remains at `/demo`; its mutation APIs return `404` in the public product unless explicitly enabled.
+
+```mermaid
+flowchart LR
+    PWA["Next.js PWA"] --> AUTH["Supabase Auth"]
+    PWA --> API["Validated server routes"]
+    API --> ACCESS["Household access resolver"]
+    ACCESS --> DB["Supabase PostgreSQL"]
+    ACCESS --> STORAGE["Private Supabase Storage"]
+    DB --> RLS["Membership RLS"]
+    API --> AI["Fairness and AI recommendations"]
+    API --> BILLING["Stripe billing foundation"]
+```
 
 ## Stack
 
-- Next.js 16 App Router, TypeScript, Tailwind CSS 4
-- shadcn/ui-style Radix primitives
-- Framer Motion animations and Lucide icons
-- Supabase PostgreSQL and private Supabase Storage
-- Web Push notifications
-- Optional OpenAI-compatible AI route through `OPENAI_API_KEY` and `OPENAI_MODEL`
-- Device/PIN identity with no login, signup, or admin account
+- Next.js 16 App Router, React 19, and TypeScript
+- Tailwind CSS 4, Radix primitives, Framer Motion, and Lucide
+- Supabase Auth, PostgreSQL, Storage, and Row Level Security
+- Stripe Checkout, Customer Portal, and signed-webhook foundation
+- Web Push and PWA service worker
+- Zod validation and PostgreSQL transactions
+- Playwright mobile regression tests
+- Vercel deployment
 
-## Local Development
+## Run it locally
+
+Requirements: Node.js 22 or newer, a Supabase project, and PostgreSQL connection details.
 
 ```bash
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open `http://localhost:3000`. Apply the files in `supabase/migrations/` in numeric order before testing authenticated household flows.
 
-The app runs with seeded local data until Supabase environment variables are configured. On first use, a housemate selects their name and creates a private 4-digit house PIN for that device. Future visits require PIN confirmation, and the PIN can be reset from the unlock screen by entering the current PIN and a new 4-digit PIN.
-
-## Supabase Setup
-
-1. Create a Supabase project.
-2. Run the SQL files in `supabase/migrations/` in order through the Supabase SQL editor or Supabase CLI.
-3. Create the environment variables from `.env.example`.
-4. Keep `SUPABASE_SERVICE_ROLE_KEY` server-only in Vercel.
-
-The migration creates:
-
-- `users`, `rooms`, `areas`
-- `tasks`, `task_history`, `points_ledger`
-- `complaints`, `complaint_votes`
-- `groceries`, `notifications`, `availability`
-- `ai_recommendations`, `proof_images`
-- `user_devices`, `task_swaps`, `rewards`, `audit_logs`, `recurring_task_rules`
-- `push_subscriptions` for Web Push delivery
-- private `proof-images` Supabase Storage bucket
-- deny-by-default Row Level Security policies for direct client access
-
-It also enforces the top floor bathroom rule so Sheraz cannot be assigned that task.
-
-## Environment
+The minimum environment is:
 
 ```bash
-SUPABASE_URL=
-SUPABASE_PUBLISHABLE_KEY=
-SUPABASE_SECRET_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
-SUPABASE_JWKS_URL=
-
-CRON_SECRET=
-HOUSEFAIR_CRON_SECRET=
-
-NEXT_PUBLIC_VAPID_PUBLIC_KEY=
-VAPID_PRIVATE_KEY=
-VAPID_SUBJECT=mailto:housefair@example.com
-
-OPENAI_API_KEY=
-OPENAI_MODEL=
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+DATABASE_URL=
+HOUSEFAIR_ACCESS_MODE=free
+LEGACY_PRIVATE_APP_ENABLED=false
 ```
 
-Generate VAPID keys with:
-
-```bash
-npx web-push generate-vapid-keys
-```
-
-`OPENAI_MODEL` is optional. Without it, HouseFair AI Manager uses the built-in fairness engine and still generates draft plans.
-
-`CRON_SECRET` protects `/api/scheduler/run` and `/api/notifications/send`. `HOUSEFAIR_CRON_SECRET` is also supported for manual calls. Vercel Cron sends `Authorization: Bearer <CRON_SECRET>`.
-
-Never expose `SUPABASE_SECRET_KEY` or `SUPABASE_SERVICE_ROLE_KEY` to client components or `NEXT_PUBLIC_*` variables.
+Stripe, VAPID, model-provider, admin, and maintenance variables are optional until those integrations are enabled. Secrets must never use the `NEXT_PUBLIC_` prefix.
 
 ## Verification
 
 ```bash
 npm run lint
 npm run build
+npm run test:e2e
+npm audit --omit=dev
 ```
 
-Both commands should pass before deploying to Vercel.
+The regression suite runs the public pages and the full demo workflow across a 390px Android viewport, iPhone PWA viewport, and Android PWA viewport. It covers identity and PIN confirmation, tasks and proof, groceries, money, profile, notifications, AI, settings, and horizontal overflow.
+
+GitHub Actions runs lint, production build, and the mobile Playwright suite for every change to `master` and every pull request.
+
+## Current status
+
+The deployed build is suitable for controlled free early access. Before switching on paid access, the remaining work is operational: custom SMTP, end-to-end Stripe test-mode verification, reviewed legal copy, external error monitoring, commercial push scheduling, and physical-device checks for install, camera, and notifications.
+
+That distinction matters to me. A feature existing in a codebase is not the same as proving it under real production conditions.
+
+## Repository map
+
+```text
+src/app/                 App Router pages and server routes
+src/components/saas/     Authenticated household product UI
+src/lib/saas/            Household access, domain logic, and data services
+src/lib/server/          Server-only database and security helpers
+supabase/migrations/     Schema, RLS, and Storage policies
+tests/                   Mobile Playwright regression suite
+public/                  PWA manifest assets, icons, and service worker
+```
+
+## License
+
+The source is publicly visible for transparency and technical review, but it is not open source. See [LICENSE](LICENSE).

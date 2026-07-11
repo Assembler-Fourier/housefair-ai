@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { PwaRegistration } from "@/components/pwa-registration";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,19 +15,37 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const publicSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://housemates-sand.vercel.app";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://housefair-ai.vercel.app"),
+  metadataBase: new URL(publicSiteUrl),
   title: {
-    default: "HouseFair AI",
-    template: "%s | HouseFair AI",
+    default: "HouseFair",
+    template: "%s | HouseFair",
   },
   description:
-    "A premium roommate management PWA for fair cleaning, groceries, complaints, points, and AI-assisted house planning.",
-  applicationName: "HouseFair AI",
+    "Fair chores, groceries, house issues, shared expenses, and AI planning for roommates.",
+  applicationName: "HouseFair",
+  keywords: [
+    "roommate chores",
+    "shared expenses",
+    "grocery planner",
+    "roommate app",
+    "Splitwise alternative",
+    "household management",
+  ],
+  openGraph: {
+    title: "HouseFair",
+    description:
+      "Fair chores, groceries, house issues, shared money, and AI planning for roommates.",
+    url: publicSiteUrl,
+    siteName: "HouseFair",
+    type: "website",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "HouseFair AI",
+    title: "HouseFair",
   },
   formatDetection: {
     telephone: false,
@@ -45,8 +64,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
+  userScalable: true,
   viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#f7f6ef" },
@@ -67,6 +86,7 @@ export default function RootLayout({
     >
       <body className="min-h-full">
         <ThemeProvider>
+          <PwaRegistration />
           {children}
           <Toaster richColors position="top-center" />
         </ThemeProvider>

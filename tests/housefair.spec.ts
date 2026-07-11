@@ -28,13 +28,13 @@ async function openAsUzair(page: Page) {
     window.localStorage.setItem("housefair:device-session", JSON.stringify(session));
     window.sessionStorage.setItem("housefair:device-session", JSON.stringify(session));
   }, testSession);
-  await page.goto("/");
+  await page.goto("/demo");
   await expect(page.getByText("Today, Uzair")).toBeVisible();
 }
 
 async function openFirstLaunch(page: Page) {
   await mockDeviceApis(page);
-  await page.goto("/");
+  await page.goto("/demo");
   await page.evaluate(() => {
     window.localStorage.clear();
     window.sessionStorage.clear();
@@ -80,6 +80,26 @@ test("identity setup, PIN confirmation, and command center are mobile safe", asy
   await page.getByRole("button", { name: "Unlock" }).click();
   await expect(page.getByText("Current house health")).toBeVisible();
   await expect(page.getByText("Recent house activity")).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+});
+
+test("public SaaS pages render and stay mobile safe", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("heading", { name: /Fair chores, groceries, issues, and shared money/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Start free", exact: true })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await page.goto("/pricing");
+  await expect(page.getByRole("heading", { name: "Full access while we launch." })).toBeVisible();
+  await expect(page.getByText("Free", { exact: true })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await page.goto("/features");
+  await expect(page.getByRole("heading", { name: /roommate app/i })).toBeVisible();
+  await expectNoHorizontalOverflow(page);
+
+  await page.goto("/auth");
+  await expect(page.getByRole("heading", { name: "Sign in to HouseFair" })).toBeVisible();
   await expectNoHorizontalOverflow(page);
 });
 

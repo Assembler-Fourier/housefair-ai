@@ -7,12 +7,13 @@ import {
   rateLimit,
 } from "@/lib/server/security";
 import {
-  dbQueryOne,
   insertRow,
   isPostgresConfigured,
   updateRows,
+  dbQueryOne,
 } from "@/lib/server/db";
 import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase/admin";
+import { areaEligibilityForUser } from "@/lib/server/area-eligibility";
 import type { TaskSwap } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -28,25 +29,6 @@ const swapSchema = z.discriminatedUnion("action", [
     swapId: z.string(),
   }),
 ]);
-
-async function getUserName(userId: string) {
-  if (isPostgresConfigured()) {
-    const data = await dbQueryOne<{ name: string }>(
-      "select name from public.users where id = $1 limit 1",
-      [userId],
-    );
-    return data?.name ?? "A housemate";
-  }
-
-  const supabase = getSupabaseAdmin();
-  const { data } = await supabase
-    .from("users")
-    .select("name")
-    .eq("id", userId)
-    .single();
-
-  return (data?.name as string | undefined) ?? "A housemate";
-}
 
 export async function POST(request: Request) {
   const limited = rateLimit(request, "task-swap", 10, 60 * 60 * 1000);
@@ -177,10 +159,16 @@ export async function POST(request: Request) {
     }
 
     if (input.action === "accept") {
-      const personName = await getUserName(auth.session.personId);
-      if (swap.task_location === "Top floor bathroom" && personName === "Sheraz") {
+      const eligibility = await areaEligibilityForUser(
+        auth.session.personId,
+        swap.task_location ?? "",
+      );
+      if (eligibility.isExcluded) {
         return NextResponse.json(
-          { error: "Sheraz is excluded from top floor bathroom cleaning." },
+          {
+            error: `${eligibility.userName} is excluded from ${swap.task_location}.`,
+            excluded_members: eligibility.excludedMembers,
+          },
           { status: 400 },
         );
       }
@@ -233,11 +221,17 @@ export async function POST(request: Request) {
   }
 
   if (input.action === "accept") {
-    const personName = await getUserName(auth.session.personId);
     const task = swap.tasks as { location?: string } | null;
-    if (task?.location === "Top floor bathroom" && personName === "Sheraz") {
+    const eligibility = await areaEligibilityForUser(
+      auth.session.personId,
+      task?.location ?? "",
+    );
+    if (eligibility.isExcluded) {
       return NextResponse.json(
-        { error: "Sheraz is excluded from top floor bathroom cleaning." },
+        {
+          error: `${eligibility.userName} is excluded from ${task?.location}.`,
+          excluded_members: eligibility.excludedMembers,
+        },
         { status: 400 },
       );
     }

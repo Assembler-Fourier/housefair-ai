@@ -338,13 +338,14 @@ function dayLabel(value: string) {
 function taskWhatsAppUrl(state: HouseState, task: Task) {
   const assignee = userName(state, task.assigned_person);
   const due = relativeDay(task.due_date);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://housefair.app";
   const text = [
     "HouseFair reminder",
     `${assignee}: ${task.title}`,
     `${task.location} - ${taskMinutes(task)} min - +${task.points} points`,
     `Due: ${due}`,
     task.defer_reason ? `Note: ${task.defer_reason}` : null,
-    "Open HouseFair: https://housemates-sand.vercel.app",
+    `Open HouseFair: ${siteUrl}`,
   ]
     .filter(Boolean)
     .join("\n");

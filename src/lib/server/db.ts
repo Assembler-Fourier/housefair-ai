@@ -1,6 +1,6 @@
 import "server-only";
 
-import { Pool } from "pg";
+import { Pool, type PoolClient } from "pg";
 
 let pool: Pool | null = null;
 
@@ -8,7 +8,7 @@ export function isPostgresConfigured() {
   return Boolean(process.env.DATABASE_URL);
 }
 
-function getPool() {
+export function getPool() {
   if (!process.env.DATABASE_URL) {
     throw new Error("DATABASE_URL is not configured.");
   }
@@ -20,6 +20,21 @@ function getPool() {
   });
 
   return pool;
+}
+
+export async function withDbTransaction<T>(callback: (client: PoolClient) => Promise<T>) {
+  const client = await getPool().connect();
+  try {
+    await client.query("begin");
+    const result = await callback(client);
+    await client.query("commit");
+    return result;
+  } catch (error) {
+    await client.query("rollback");
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 function quoteIdentifier(identifier: string) {

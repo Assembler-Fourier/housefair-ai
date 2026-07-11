@@ -12,7 +12,8 @@ const maintenanceSchema = z.object({
 });
 
 function authorized(pin: string) {
-  return pin === (process.env.MAINTENANCE_PIN ?? "2468");
+  const secret = process.env.MAINTENANCE_SECRET ?? process.env.MAINTENANCE_PIN;
+  return Boolean(secret && pin === secret);
 }
 
 export async function POST(request: Request) {
