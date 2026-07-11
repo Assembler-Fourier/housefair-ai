@@ -2,6 +2,8 @@
 
 **A mobile-first command center for shared homes.**
 
+[![CI](https://github.com/Assembler-Fourier/housefair-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Assembler-Fourier/housefair-ai/actions/workflows/ci.yml)
+
 [Live app](https://housemates-sand.vercel.app) · [Launch audit](HOUSEFAIR_SAAS_CONVERSION_REPORT.md) · [Security model](SECURITY.md)
 
 ![HouseFair mobile screens](docs/screenshots/contact-sheet.jpg)
