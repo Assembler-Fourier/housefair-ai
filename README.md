@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/Assembler-Fourier/housefair-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Assembler-Fourier/housefair-ai/actions/workflows/ci.yml)
 
-[Live app](https://housemates-sand.vercel.app) · [Launch audit](HOUSEFAIR_SAAS_CONVERSION_REPORT.md) · [Security model](SECURITY.md)
+[Public preview](https://housemates-sand.vercel.app) | [Architecture](ARCHITECTURE.md) | [Security model](SECURITY.md) | [Readiness](docs/PRODUCTION_READINESS.md)
 
 ![HouseFair mobile screens](docs/screenshots/contact-sheet.jpg)
 
@@ -12,7 +12,7 @@ I built HouseFair after living in a six-person house and seeing the same problem
 
 The first version solved that one house. The current product keeps the practical details that mattered there, but gives each household its own isolated workspace. It combines recurring cleaning routines, groceries, shared expenses, softer issue reporting, and explainable planning in one installable PWA.
 
-HouseFair is in free early access. No card is required.
+HouseFair is available as a free public preview. No card is required. Legal review, production email, monitoring, physical-device checks, and end-to-end Stripe test-mode verification remain launch gates.
 
 ## The product
 
@@ -39,7 +39,7 @@ The AI manager only proposes a plan. People review it before anything is assigne
 - Grocery-to-expense handoff
 - Equal, exact, percentage, and shares-based splits
 - IOUs, simplified debts, settlements, receipts, budgets, and monthly summaries
-- Money stored in integer cents to avoid floating-point rounding errors
+- Split calculations performed in integer cents before fixed two-decimal values are stored
 
 ### Less awkward house issues
 
@@ -60,12 +60,14 @@ Screenshots use anonymized demo data.
 ## Engineering decisions
 
 - **Server-owned household scope.** Every commercial API request resolves the authenticated user, active household, and membership before querying data.
-- **PostgreSQL as the source of truth.** Operational records are household-scoped and written in transactions through a server-only pooled connection.
+- **PostgreSQL as the source of truth.** Operational records are household-scoped through a server-only pooled connection, with transactions used for selected multi-step operations.
 - **RLS as a second boundary.** Browser-readable Supabase tables and private Storage objects are protected by active membership policies.
 - **Validated mutations.** Zod schemas, route-level authorization, rate limits, and audit activity protect high-friction actions such as uploads, expenses, tasks, and issues.
 - **Private-page cache discipline.** The service worker provides an installable offline shell without caching authenticated household HTML.
 - **Recommendation-only AI.** Planning remains explainable and reversible. Rules still work when no external model is configured.
 - **Legacy containment.** The original single-house demo remains at `/demo`; its mutation APIs return `404` in the public product unless explicitly enabled.
+
+The rationale and tradeoffs are recorded in [`docs/decisions/`](docs/decisions/). A fuller request and data-flow view is available in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ```mermaid
 flowchart LR
@@ -95,7 +97,7 @@ flowchart LR
 Requirements: Node.js 22 or newer, a Supabase project, and PostgreSQL connection details.
 
 ```bash
-npm install
+npm ci
 cp .env.example .env.local
 npm run dev
 ```
@@ -118,19 +120,20 @@ Stripe, VAPID, model-provider, admin, and maintenance variables are optional unt
 ## Verification
 
 ```bash
+npm run typecheck
 npm run lint
 npm run build
 npm run test:e2e
 npm audit --omit=dev
 ```
 
-The regression suite runs the public pages and the full demo workflow across a 390px Android viewport, iPhone PWA viewport, and Android PWA viewport. It covers identity and PIN confirmation, tasks and proof, groceries, money, profile, notifications, AI, settings, and horizontal overflow.
+The regression suite is configured for a 390px Android viewport, an iPhone PWA viewport, and an Android PWA viewport. It covers public pages and the demo workflow, including identity and PIN confirmation, tasks and proof, groceries, money, profile, notifications, planning, settings, and horizontal overflow.
 
 GitHub Actions runs lint, production build, and the mobile Playwright suite for every change to `master` and every pull request.
 
 ## Current status
 
-The deployed build is suitable for controlled free early access. Before switching on paid access, the remaining work is operational: custom SMTP, end-to-end Stripe test-mode verification, reviewed legal copy, external error monitoring, commercial push scheduling, and physical-device checks for install, camera, and notifications.
+The deployed build is a public technical preview suitable for controlled testing, not a claim of general production readiness. Before inviting unmanaged public users or enabling paid access, it still needs reviewed legal copy, production email delivery, external error monitoring, end-to-end Stripe test-mode checks, commercial notification scheduling, and physical-device checks for install, camera, and notifications.
 
 That distinction matters to me. A feature existing in a codebase is not the same as proving it under real production conditions.
 
@@ -144,7 +147,18 @@ src/lib/server/          Server-only database and security helpers
 supabase/migrations/     Schema, RLS, and Storage policies
 tests/                   Mobile Playwright regression suite
 public/                  PWA manifest assets, icons, and service worker
+docs/                    Readiness, threat model, screenshots, and decision records
 ```
+
+## Known limitations
+
+- The public legal, refund, and privacy pages are technical placeholders awaiting professional review.
+- Paid access is not verified end to end and should remain disabled.
+- Public CI uses the self-contained demo path; authenticated database and storage policy behavior requires a configured Supabase test environment.
+- In-memory rate-limit fallbacks are process-local and are not a substitute for a distributed production limiter.
+- Email, push delivery, camera capture, PWA install, and notification permissions still need physical-device and provider-backed verification.
+
+See [the production-readiness checklist](docs/PRODUCTION_READINESS.md) for the release boundary.
 
 ## License
 

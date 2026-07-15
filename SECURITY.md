@@ -2,6 +2,8 @@
 
 HouseFair stores household routines, issues, expenses, receipts, and cleaning proof. Treat production access as sensitive even though the app is not a bank or health service.
 
+See [the threat-model summary](docs/THREAT_MODEL.md) for assets, trust boundaries, controls, and residual verification work.
+
 ## Trust boundaries
 
 - Supabase Auth issues and refreshes browser sessions.
