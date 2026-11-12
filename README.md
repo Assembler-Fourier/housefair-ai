@@ -65,7 +65,8 @@ Screenshots use anonymized demo data.
 - **Validated mutations.** Zod schemas, route-level authorization, rate limits, and audit activity protect high-friction actions such as uploads, expenses, tasks, and issues.
 - **Private-page cache discipline.** The service worker provides an installable offline shell without caching authenticated household HTML.
 - **Recommendation-only AI.** Planning remains explainable and reversible. Rules still work when no external model is configured.
-- **Legacy containment.** The original single-house demo remains at `/demo`; its mutation APIs return `404` in the public product unless explicitly enabled.
+- **Public tour.** `/demo` opens sample household screens without a PIN or account. It does not mount device sessions, offline queues or live mutation handlers. Changes show a preview notice; authenticated household access remains separate.
+- **Legacy containment.** Legacy mutation APIs return `404` in the public product unless explicitly enabled.
 
 The rationale and tradeoffs are recorded in [`docs/decisions/`](docs/decisions/). A fuller request and data-flow view is available in [ARCHITECTURE.md](ARCHITECTURE.md).
 
