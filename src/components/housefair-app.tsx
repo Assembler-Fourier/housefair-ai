@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { AnimatePresence, motion } from "framer-motion";
@@ -4825,6 +4826,41 @@ function BottomNav({ active, onChange }: { active: View; onChange: (view: View) 
         })}
       </div>
     </nav>
+  );
+}
+
+// The public tour never mounts device identity, live API handlers or offline queues.
+export function HouseFairDemo({ state }: { state: HouseState }) {
+  const [active, setActive] = React.useState<View>("today");
+  const currentUser = state.users[0];
+  const explainPreview = () => toast.info("Sample preview only. Sign in to manage your own household.");
+
+  return (
+    <div className="mx-auto min-h-[100svh] w-full max-w-[440px] overflow-x-hidden px-2 pb-[calc(env(safe-area-inset-bottom)+6rem)]">
+      <TopBar state={state} currentUser={null} onSwitchIdentity={explainPreview} />
+      <GlassCard className="mb-4 p-4">
+        <p className="font-black">Explore a sample household</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Browse chores, groceries and shared expenses. All records are sample data; changes are not saved.
+        </p>
+        <Link className="mt-2 inline-block text-sm font-bold text-primary underline" href="/auth">Open your own household</Link>
+      </GlassCard>
+      <main>
+        {active === "today" ? <TodayScreen state={state} currentUser={currentUser} onOpenDialog={explainPreview} onNavigate={setActive} onAddExpense={explainPreview} onDefer={explainPreview} onWhatsApp={explainPreview} /> : null}
+        {active === "tasks" ? <TasksScreen state={state} currentUser={currentUser} onComplete={explainPreview} onDefer={explainPreview} onWhatsApp={explainPreview} onSwap={explainPreview} onCancelSwap={explainPreview} /> : null}
+        {active === "groceries" ? <GroceriesScreen state={state} currentUser={currentUser} onOpenAdd={explainPreview} onOpenScan={explainPreview} onUpdate={explainPreview} onToggleShopping={explainPreview} /> : null}
+        {active === "money" ? <MoneyScreen state={state} currentUser={currentUser} onOpenExpense={explainPreview} onOpenSettlement={explainPreview} onOpenBudget={explainPreview} onEditExpense={explainPreview} onDeleteExpense={explainPreview} onAddComment={explainPreview} /> : null}
+        {active === "more" ? (
+          <GlassCard className="p-5">
+            <h1 className="text-xl font-black">About this preview</h1>
+            <p className="mt-3 text-sm text-muted-foreground">This tour uses a sample six-person household. You can explore routines, filter groceries, review expense splits and ask the local money helper about the sample balances.</p>
+            <p className="mt-3 text-sm text-muted-foreground">Sign in to create your own household, save changes and invite your housemates.</p>
+            <Link className="mt-4 inline-block font-bold text-primary underline" href="/">Back to HouseFair</Link>
+          </GlassCard>
+        ) : null}
+      </main>
+      <BottomNav active={active} onChange={setActive} />
+    </div>
   );
 }
 
