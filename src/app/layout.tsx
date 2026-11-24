@@ -41,6 +41,19 @@ export const metadata: Metadata = {
     url: publicSiteUrl,
     siteName: "HouseFair",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HouseFair sample household on two phone screens",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HouseFair",
+    images: ["/og-image.png"],
   },
   appleWebApp: {
     capable: true,
